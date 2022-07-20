@@ -1,0 +1,23 @@
+<header>
+  <!-- Background image -->
+  <!-- <div class="p-5 text-center bg-image" style=" background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp'); height:400px;"> -->
+  <div class="p-5 text-center bg-image" style=" background-image: url('https://source.unsplash.com/1600x900/?tech'); height:400px;">
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.6)">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
+          {% if request.session.username %}
+          <h1 class="mb-3">Welcome</h1>
+          <h4 class="mb-3">{{request.session.username}}</h4>
+          {%else%}
+          <h1 class="mb-3">Welcome to</h1>
+          <h4 class="mb-3">Authentication System</h4>
+          <a class="btn btn-outline-light btn-lg" href="/signup" role="button"
+            >Get Started</a
+          >
+          {% endif %}  
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Background image -->
+</header>

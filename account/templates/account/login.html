@@ -1,0 +1,138 @@
+{% extends 'account_base.html' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block css %}
+<style>
+  .hide{
+    visibility:hidden;
+  }
+  .remove{
+    display:none;
+  }
+  .show{
+    // display:default;
+    display:block;
+
+  }
+  .strength-filler{
+    display: inline-block;
+    max-width: 100%;
+    height: 30px;
+    background: red;
+    transition: width 0.2s ease-in;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 5px;
+  }
+
+  .pswd_icon_wrapper{
+    position: absolute;
+    cursor: pointer;
+    top:20%;
+    right:2%;
+  }
+
+</style>
+{% endblock css %}
+
+{% block main %}
+<section class="vh-100" style="background-color: #9A616D;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="https://source.unsplash.com/900x1400/?security"alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+                  <form action="" method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                      <i class="fas fa-lock fa-2x me-3" style="color: #ff6219;"></i>
+                      <span class="h1 fw-bold mb-0">Login</span>
+                    </div>
+  
+                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+                    {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                      {{error.captchaErr}}
+                      {{error.verifyErr}}
+                      {{error.credErr}}
+                    </div>
+                    {% endif %}
+                    <div class="field_row">
+                      <div class="form-outline mb-2">
+                        <input type="text" id="unameInput" class="form-control form-control-lg" name="uname" required/>
+                        <label class="form-label" for="emailInput">Username or Email</label>
+                      </div>
+                      <p class="text-danger field_error_wrapper uname_error p-1">{{formErr.unameErr}}</p>
+                    </div>
+                    <div class="field_row">
+                      <div class="form-outline mb-2">
+                        <input type="password" id="pswdInput" class="form-control form-control-lg" name="pswd" required/>
+                        <label class="form-label" for="pswdInput">Password</label>
+                        <span class="pswd_icon_wrapper"><i class="fas fa-eye text-success"></i></span>
+                      </div>
+                      <p class="text-danger field_error_wrapper pswd_error p-1">{{formErr.unameErr}}</p>
+                    </div>
+                    <div class="captcha_wrapper form-outline mb-4">
+                      <div class="g-recaptcha" data-sitekey="6LexaIcgAAAAAAbicQSEjskHpaioiGgMuUtatUZb"></div>
+                    </div>
+                    <div class="pt-1 mb-4">
+                      <button class="btn btn-dark btn-lg btn-block" type="submit" name="login_button">Login</button>
+                    </div>
+  
+                    <a class="small text-muted" href="/forgetpassword">Forgot password?</a>
+                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{% url 'signup' %}">Register here</a></p>
+                    <a href="#!" class="small text-muted">Terms of use.</a>
+                    <a href="#!" class="small text-muted">Privacy policy</a>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock main %}
+
+{% block js %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script defer>
+  let pass = document.querySelector('#pswdInput')
+  let pswdIcon = document.querySelector('.pswd_icon_wrapper')
+
+  pswdIcon.addEventListener('click', function(element){
+    if(pass.getAttribute("type") == "password"){
+      pass.setAttribute("type", "text");
+      this.innerHTML = `<i class="fas fa-eye-slash text-success"></i>`
+    }
+    else{
+      pass.setAttribute("type", "password");
+      this.innerHTML = `<i class="fas fa-eye text-success"></i>`
+    }
+  })
+
+  let uname = document.querySelector('#unameInput');
+  let unameRegex = /^\w{3,15}$/
+  let emailRegex = /^[a-z]+[\w\.]*[a-z0-9]+@[a-z]{3,20}\.[a-z]{2,4}\.?[a-z]?[a-z]?$/
+  let pswdRegex = /^.{8,50}$/
+
+  const regexChecker = function(regex, field, fieldClass, errMsg){
+    let fieldClassName = "."+fieldClass
+    field.addEventListener('input', function(e){
+      if (regex.test(field.value)){
+        document.querySelector(fieldClassName).innerHTML = "";
+      }
+      else{
+        document.querySelector(fieldClassName).innerHTML = errMsg;
+      }
+    })
+  }
+  regexChecker(pswdRegex, pass, "pswd_error", "Invalid Password");
+  </script>
+{% endblock js %}

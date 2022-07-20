@@ -1,0 +1,393 @@
+
+{% extends 'account_base.html' %}
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block css %}
+<style>
+
+  .hide{
+    visibility:hidden;
+  }
+  .remove{
+    display:none;
+  }
+  .show{
+    /* display:default;
+     display:block;*/
+    display:unset;
+  }
+  .strength-filler{
+    display: inline-block;
+    max-width: 100%;
+    height: 30px;
+    background: red;
+    transition: width 0.2s ease-in;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 5px;
+  }
+/*
+  .pass{
+    transition: all 6s ease-in;
+  }
+
+  #pswdInput{
+    position: relative;
+    transition: all 2s ease-in;
+  }
+*/
+  .pswd_icon_wrapper{
+    position: absolute;
+    cursor: pointer;
+    top:20%;
+    right:2%;
+  }
+
+  .field_error_wrapper{
+    transition: all 0.2s ease-in;
+  }
+
+  .meet_criteria{
+    color: #000!important;
+  }
+
+  /* .meet_criteria::before{
+    content: "";
+  } */
+
+  .cursor_pointer{
+    cursor: pointer;
+  }
+  .cursor_disabled{
+    cursor: not-allowed;
+  }
+</style>
+{% endblock css %}
+
+{% block main %}
+<section class="vh-100" style="background-color: #eee;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+          <div class="card text-black" style="border-radius: 25px;">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                    <div class="formwrapper mx-1 mx-md-4">
+                          <form class="" action="" method="post">
+                          {% csrf_token %}
+                          <div class="form_row form_item mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                              <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                              <div class="form-outline flex-fill mb-0">
+                                <input type="text" id="fnameInput" class="form-control {% if formErr.fnameErr%}error_field{% endif %}" name="fname" required/>
+                                <label class="form-label" for="fnameInput">First Name</label>
+                              </div>
+                            </div>
+                            {% if formErr.fnameErr%}
+                              <p class="text-danger field_error_wrapper fname_error px-4 ms-4">{{formErr.fnameErr}}</p>
+                            {% else %}
+                              <p class="text-danger field_error_wrapper fname_error px-4 ms-4"></p>
+                            {% endif %}
+                          </div>
+                          <div class="form_row form_item mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                              <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                              <div class="form-outline flex-fill mb-0">
+                                <input type="text" id="lnameInput" class="form-control {% if formErr.lnameErr%}error_field{% else %}{% endif %}" name="lname" required/>
+                                <label class="form-label" for="lnameInput">Last Name</label>                              
+                              </div>
+                            </div>
+                            {% if formErr.lnameErr%}
+                              <p class="text-danger field_error_wrapper lname_error px-4 ms-4">{{formErr.lnameErr}}</p>
+                            {% else %}
+                              <p class="text-danger field_error_wrapper lname_error px-4 ms-4"></p>
+                            {% endif %}
+                            
+                          </div>
+                          <div class="form_row form_item mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                              <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                              <div class="form-outline flex-fill mb-0">
+                                <input type="text" id="unameInput" class="form-control {% if formErr.unameErr%}error_field{% endif %}" name="uname" required/>
+                                <label class="form-label" for="unameInput">Username</label>
+                              </div>
+                            </div>
+                            {% if formErr.unameErr%}
+                            <p class="text-danger field_error_wrapper uname_error px-4 ms-4">{{formErr.unameErr}}</p>
+                            {% else %}
+                              <p class="text-danger field_error_wrapper uname_error px-4 ms-4"></p>
+                            {% endif %}                            
+                          </div>
+                          <div class="form_row form_item mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                              <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                              <div class="form-outline flex-fill mb-0">
+                                <input type="text" id="emailInput" class="form-control {% if formErr.emailErr%}error_field{% endif %}" name="email" required/>
+                                <label class="form-label" for="emailInput">Your Email</label>
+                              </div>
+                            </div>
+                            {% if formErr.emailErr%}
+                              <p class="text-danger field_error_wrapper email_error px-4 ms-4">{{formErr.emailErr}}</p>
+                            {% else %}
+                              <p class="text-danger field_error_wrapper email_error px-4 ms-4"></p>
+                            {% endif %}         
+                          </div>
+                          <div class="form_row form_item mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                              <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                              <div class="form-outline pass flex-fill mb-0">
+                                <input type="password" id="pswdInput" class="form-control" name="pswd" required/>
+                                <label class="form-label" for="pswdInput">Password</label>
+                                <span class="pswd_icon_wrapper"><i class="fas fa-eye text-secondary"></i></span>
+                              </div>
+                            </div>
+                            {% if formErr.emailErr%}
+                            <p class="text-danger field_error_wrapper pswd_error px-4 ms-4">{{formErr.pswdErr}}</p>
+                            {% else %}
+                            <p class="text-danger field_error_wrapper pswd_error px-4 ms-4"></p>
+                            {% endif %} 
+                          </div>
+                            <div class="strength-meter my-2 w-100 bg-light remove">
+                              <div class="strength-filler p-1"></div>                     
+                            </div>
+                          <div class="password_criterian_wrapper remove ps-2 text-muted">
+                            <ul type="none">                       
+                              <li class="criteria length_criteria"><span class="icon_wrapper me-3"><i class="fa-solid fa-circle-xmark text-danger"></i></span><span>Use more than 8 characters</li></span>
+                              <li class="criteria lowercase_criteria"><span class="icon_wrapper me-3"><i class="fa-solid fa-circle-xmark text-danger"></i></span><span>Include Lowercase Characters (i.e. a-z)</li></span>
+                              <li class="criteria uppercase_criteria"><span class="icon_wrapper me-3"><i class="fa-solid fa-circle-xmark text-danger"></i></span><span>Include Uppercase Characters (i.e. A-Z)</li></span>
+                              <li class="criteria number_criteria"><span class="icon_wrapper me-3"><i class="fa-solid fa-circle-xmark text-danger"></i></span><span>Include Numbers (i.e. 0-9)</li></span>
+                              <li class="criteria symbol_criteria"><span class="icon_wrapper me-3"><i class="fa-solid fa-circle-xmark text-danger"></i></span><span>Include Symbols (eg @#$%)</li></span>
+                            </ul>
+                          </div>
+                          <div class="form_row form_item mb-4">
+                            <div class="d-flex flex-row align-items-center">
+                              <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                              <div class="form-outline flex-fill mb-0">
+                                <input type="password" id="cpswdInput" class="form-control" name="cpswd" required/>
+                                <label class="form-label" for="cpswdInput">Confirm Password</label>
+                              </div>
+                            </div>
+                            <p class="text-danger field_error_wrapper cpswd_error px-4 ms-4">{{formErr.cpswdErr}}</p>
+                          </div>
+                          <div class="captcha_wrapper form-outline mb-4 ms-5">
+                            <div class="g-recaptcha" data-sitekey="6LexaIcgAAAAAAbicQSEjskHpaioiGgMuUtatUZb"></div>
+                            <p class="text-danger field_error_wrapper cpswd_error">{{formErr.captchaErr}}</p>
+                          </div>
+                          <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                            <button type="submit" name="register_button" id="registerBtn" class="btn btn-primary btn-lg">Register</button>
+                          </div>       
+                          </form>
+                          <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a href="/login">Log in here</a></p>
+                    </div>
+                </div>
+                <div class="col-md-10 col-lg-5 col-xl-5 d-flex align-items-center order-1 order-lg-2">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                    class="img-fluid" alt="Sample image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock main %}
+
+{% block js %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+  let fname = document.querySelector('#fnameInput');
+  let lname = document.querySelector('#lnameInput');
+  let uname = document.querySelector('#unameInput');
+  let email = document.querySelector('#emailInput');
+  let password = document.querySelector('#pswdInput');
+  let cpassword = document.querySelector('#cpswdInput');
+  let strengthMeter = document.querySelector('.strength-meter');
+  let strengthFiller = document.querySelector('.strength-filler')
+  let pswdIcon = document.querySelector('.pswd_icon_wrapper')
+  let registerBtn = document.querySelector('#registerBtn')
+   
+  password.addEventListener('focus', function(element){
+    document.querySelector('.password_criterian_wrapper').classList.remove("remove");   
+  })
+
+  password.addEventListener('blur', function(element){
+    document.querySelector('.password_criterian_wrapper').classList.add("remove");
+    strengthMeter.classList.add("remove");
+  })
+
+  pswdIcon.addEventListener('click', function(element){
+    if(password.getAttribute("type") == "password"){
+      password.setAttribute("type", "text");
+      this.innerHTML = `<i class="fas fa-eye-slash text-secondary"></i>`
+    }
+    else{
+      password.setAttribute("type", "password");
+      this.innerHTML = `<i class="fas fa-eye text-secondary"></i>`
+    }
+  })
+
+  let nameRegex = /^[a-zA-z]{2,20}$/ 
+  let unameRegex = /^\w{3,15}$/
+  let emailRegex = /^[a-z]+[\w\.]*[a-z0-9]+@[a-z]{3,10}\.[a-z]{2,6}\.?[a-z]?[a-z]?$/
+
+  const disableButton = function(buttonId){
+    let btn = document.getElementById(buttonId)
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed"
+  }
+  const enableButton = function(buttonId){
+    let btn = document.getElementById(buttonId)
+    btn.disabled = false;
+    btn.style.cursor = "pointer"
+  }
+
+  const regexChecker = function(regex, field, fieldClass, errMsg){
+    let fieldClassName = "."+fieldClass
+    field.addEventListener('input', function(e){
+      if (regex.test(field.value)){
+        document.querySelector(fieldClassName).innerHTML = "";
+      }
+      else{
+        document.querySelector(fieldClassName).innerHTML = errMsg;
+      }
+    })
+  }
+  regexChecker(nameRegex, fname, "fname_error", "Invalid First Name");
+  regexChecker(nameRegex, lname, "lname_error", "Invalid Last Name");
+  regexChecker(unameRegex, uname, "uname_error", "Invalid Username");
+  regexChecker(emailRegex, email, "email_error", "Invalid Email");
+  password.addEventListener('input', function(element){
+    let length_criteria = false;
+    let lowercase_criteria = false;
+    let uppercase_criteria = false;
+    let number_criteria = false;
+    let symbol_criteria = false;
+    let strength = 0;
+    let pswd = this.value;
+    strengthMeter.classList.remove('remove');
+    
+    if(pswd.length > 4){
+      strength+=2;
+    }
+    
+    if(pswd.length > 8){
+       length_criteria = true;
+       document.querySelector('.length_criteria').firstElementChild.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
+       strength+=(2*(pswd.length));
+       strength+=(2*(pswd.length));
+    }
+
+    if(/[a-z]/.test(pswd)){
+      lowercase_criteria = true;
+      document.querySelector('.lowercase_criteria').firstElementChild.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
+      strength+=2;
+    }
+    
+    if(/[A-Z]/.test(pswd)){
+      uppercase_criteria = true;
+      document.querySelector('.uppercase_criteria').firstElementChild.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
+      strength += 5;
+    }
+    if(/[0-9]/.test(pswd)){
+      number_criteria = true;
+      document.querySelector('.number_criteria').firstElementChild.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
+      strength += 5;
+    }
+    if(/[^A-Za-z0-9]/.test(pswd)){
+      symbol_criteria = true;
+      document.querySelector('.symbol_criteria').firstElementChild.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>`;
+      strength += 10;
+    }
+
+      // To hide strength meter when we clear passwerd input (using backspace)
+    if (password.value == ""){
+      strengthMeter.classList.add('remove');
+      strength = 0;
+    }
+
+    // strength = getPasswordStrength(password.value)
+    console.log(strength);
+    meterWidth = strength + "%"
+    strengthFiller.style.width = meterWidth;
+    if (strength>10 && strength<40){
+      strengthFiller.style.backgroundColor = "red";
+      strengthFiller.style.color = "#fff";
+      strengthFiller.innerText = "Weak"
+    }
+    else if (strength>40 && strength<60 ){
+      strengthFiller.style.backgroundColor = "yellow";
+      strengthFiller.style.color = "#000";
+      strengthFiller.innerText = "Medium"
+    } 
+    else if (strength>60 && strength<90 ){
+      strengthFiller.style.backgroundColor = "cyan";
+      strengthFiller.style.color = "#000";
+      strengthFiller.innerText = "Good"
+    }  
+    else if (strength>90){
+      strengthFiller.style.backgroundColor = "green";
+      strengthFiller.style.color = "#fff";
+      strengthFiller.innerText = "Very Strong"
+    }
+    else{   
+      strengthFiller.innerText = ""
+    }
+
+    if(length_criteria){
+      document.querySelector('.length_criteria').classList.add("meet_criteria");
+    }
+    if(lowercase_criteria){
+      document.querySelector('.lowercase_criteria').classList.add("meet_criteria");
+    }
+    if(uppercase_criteria){
+      document.querySelector('.uppercase_criteria').classList.add("meet_criteria");
+    }
+    if(number_criteria){
+      document.querySelector('.number_criteria').classList.add("meet_criteria");
+    }
+    if(symbol_criteria){
+      document.querySelector('.symbol_criteria').classList.add("meet_criteria");
+    }
+
+    if (length_criteria && lowercase_criteria && uppercase_criteria && number_criteria && symbol_criteria){
+      document.querySelector('.pswd_error').innerText = ``;
+    }
+    else{
+      document.querySelector('.pswd_error').innerText = `Please meet all password criterian!`;
+    }
+})
+
+cpassword.addEventListener('input', function(element){
+  if (password.value == cpassword.value){
+    document.querySelector('.cpswd_error').innerText = ``;
+  }
+  else{
+    document.querySelector('.cpswd_error').innerText = `Doesn't match with password!`;
+  }
+})
+
+{% if hasError %}
+console.log("form has error")
+document.querySelector('#fnameInput').value = "{{formData.fname}}";
+console.log("{{formData.fname}}")
+document.querySelector('#lnameInput').value = "{{formData.lname}}";
+document.querySelector('#unameInput').value = "{{formData.uname}}";
+document.querySelector('#emailInput').value = "{{formData.email}}";
+document.querySelector('#pswdInput').value = "{{formData.pswd}}";
+document.querySelector('#cpswdInput').value = "{{formData.cpswd}}";
+document.querySelectorAll(".error_field")[0].focus();
+{% endif %}
+</script>
+
+{% comment %} Scripts Enjected by django {% endcomment %}
+<script>
+  {% if isRegistered %}
+  alert("Done! Confirmation link has been sent to your email.")
+  {% endif %}
+</script
+
+{% endblock js %}

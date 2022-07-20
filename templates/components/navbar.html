@@ -1,0 +1,63 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Container wrapper -->
+  <div class="container">
+    <!-- Navbar brand -->
+    <a class="navbar-brand me-2" href="https://mdbgo.com/">
+      <img
+        src="https://source.unsplash.com/300x300/?lock"
+        height="16"
+        alt="MDB Logo"
+        loading="lazy"
+        style="margin-top: -1px"
+      />
+    </a>
+
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarButtonsExample"
+      aria-controls="navbarButtonsExample"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarButtonsExample">
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-4">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+      </ul>
+      <!-- Left links -->
+      <div class="d-flex align-items-center">
+        {% if request.session.username %}
+        {% comment %} <p>Hello,{{request.session.username}}</p> {% endcomment %}
+        <a href="/profile" class="btn btn-link px-3 me-2">Hello, {{request.session.username}}</a>
+        {% comment %} <button type="button" class="btn btn-link px-3 me-2"><a href="/profile">Hello, {{request.session.username}}</a></button> {% endcomment %}
+        <a href="/profile" class="btn btn-link px-3 me-2">Profile</a>
+        {% comment %} <button type="button" class="btn btn-link px-3 me-2"><a href="/profile">Profile</a></button> {% endcomment %}
+        <a href="{% url 'logout' %}" class="btn btn-danger me-3 text-white">Logout</a>
+        {% comment %} <button type="button" class="btn btn-primary me-3"><a href="{% url 'logout' %}" class="text-white">Logout</a></button> {% endcomment %}
+        {%else%}
+        {% comment %} {% url '<url/route_name>' %} {% endcomment %}
+        <!-- <button type="button" class="btn btn-link px-3 me-2"><a href="login">Login</a></button> -->
+        <!-- <button type="button" class="btn btn-link px-3 me-2"><a href="/login">Login</a></button> -->
+        <a href="/login" class="btn btn-link px-3 me-2">Login</a>
+        {% comment %} <button type="button" class="btn btn-link px-3 me-2"><a href="/login">login</a></button> {% endcomment %}
+        <a href="{% url 'signup' %}" class="btn btn-primary me-3 text-white">Sign Up</a>
+        {% comment %} <button type="button" class="btn btn-primary me-3"><a href="/signup" class="text-white">Sign Up</a></button> {% endcomment %}
+        {% comment %} <button type="button" class="btn btn-primary me-3"><a href="{% url 'signup' %}">Sign Up</a></button> {% endcomment %}
+        {% endif %}
+      </div>
+    </div>
+    <!-- Collapsible wrapper -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

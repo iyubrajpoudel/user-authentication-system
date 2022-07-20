@@ -1,0 +1,20 @@
+{% extends 'account_base.html' %}
+{% block title %}Verify{% endblock title %}
+{% block main %}
+<div class="container">
+    <main role="main" class="inner cover my-4 py-4">
+      <h1 class="cover-heading">Email Verification</h1>
+      {% if verifyFlag %}
+      <p class="lead">Welcome to authentication system!</p>
+      <p class="lead my-4 text-success">{{msg}}</p>
+      <a href="/login" class="btn btn-lg btn-secondary">Go to Login</a>
+      {% else %}
+      <p class="lead">
+        <p class="lead">Sorry, we can't verify your email address!</p>
+        <p class="lead my-4 text-danger">{{msg}}</p>
+        <a href="/" class="btn btn-lg btn-secondary">Go to Home</a>
+      </p>
+      {% endif %}
+    </main>
+</div>
+{% endblock main %}
